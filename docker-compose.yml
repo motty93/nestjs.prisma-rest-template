@@ -10,7 +10,7 @@ services:
       TZ: 'Asia/Tokyo'
     volumes:
       - ./docker/init:/docker-entrypoint-initdb.d
-      - recommend-mail-data:/var/lib/postgresql/data
+      - nestjs-rest-data:/var/lib/postgresql/data
     ports:
       - '5555:5432'
     restart: always
