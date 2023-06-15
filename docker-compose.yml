@@ -16,5 +16,5 @@ services:
     restart: always
 
 volumes:
-  recommend-mail-data:
+  nestjs-rest-data:
     driver: local
