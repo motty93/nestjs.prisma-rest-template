@@ -5,19 +5,45 @@
   "author": "motty93 <rdwbocungelt@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "18.13.0"
+  },
+  "prisma": {
+    "seed": "./scripts/seeds/dev.sh"
+  },
   "scripts": {
+    "prebuild": "rimraf dist",
+    "preinstall": "./scripts/remove_package.sh",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "fmt": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "fmt:check": "yarn prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint:all": "yarn eslint \"{src,apps,libs,test,prisma}/**/*.ts\" --fix",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "dotenv -e .env.test -- yarn jest --runInBand --silent",
+    "test:ci": "yarn jest --runInBand --silent",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:generate": "yarn prisma generate && dotenv -e .env.test -- yarn prisma generate",
+    "db:migrate": "./scripts/migrate.sh",
+    "db:migrate:test": "dotenv -e .env.test -- yarn prisma migrate dev --skip-seed",
+    "db:migrate:reset": "yarn prisma migrate reset --skip-seed",
+    "db:studio": "yarn prisma studio",
+    "db:studio:test": "dotenv -e .env.test -- yarn prisma studio",
+    "db:seed": "yarn prisma db seed",
+    "db:seed:prd": "./scripts/seeds/prd.sh",
+    "storage:init": "docker compose build && docker compose up -d",
+    "storage:build": "docker compose build",
+    "storage:start": "docker compose up -d",
+    "storage:stop": "docker compose stop",
+    "storage:restart": "docker compose restart",
+    "storage:clean": "docker compose down --volumes"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -80,6 +106,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^~/(.*)$": "<rootDir>/$1"
+    }
   }
 }
