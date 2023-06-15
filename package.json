@@ -2,7 +2,7 @@
   "name": "nestjs.prisma-rest-template",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "motty93 <rdwbocungelt@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
