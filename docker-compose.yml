@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  postgres:
+    build: ./docker
+    image: nestjs-rest-database
+    container_name: nestjs-rest-postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./docker/init:/docker-entrypoint-initdb.d
+      - recommend-mail-data:/var/lib/postgresql/data
+    ports:
+      - '5555:5432'
+    restart: always
+
+volumes:
+  recommend-mail-data:
+    driver: local
